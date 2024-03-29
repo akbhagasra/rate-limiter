@@ -10,15 +10,15 @@ namespace RateLimiter.Helpers
             switch (name)
             {
                 case "TokenBucketRoute":
-                    return new TokenBucket(10, 1);
+                    return new TokenBucket(Constants.TB_Capacity, Constants.TB_RefillRatePerSec);
                 case "FixedWindowCounter":
-                    return new FixedWindowCounter(10, 10);
+                    return new FixedWindowCounter(Constants.FWC_Capacity, Constants.FWC_WindowSizeInSec);
                 case "SlidingWindowLog":
-                    return new SlidingWindowLog(15, 3);
+                    return new SlidingWindowLog(Constants.SWL_Capacity, Constants.SWL_WindowSizeInSec);
                 case "SlidingWindowCounter":
-                    return new SlidingWindowCounter(5, 1);
+                    return new SlidingWindowCounter(Constants.SWC_Capacity, Constants.SWC_WindowSizeInSec);
             }
-            return new SlidingWindowCounter(5, 1);
+            return new SlidingWindowCounter(Constants.SWC_Capacity, Constants.SWC_WindowSizeInSec);
         }
     }
 }
