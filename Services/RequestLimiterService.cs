@@ -19,7 +19,8 @@ namespace RateLimiter.Services
             {
                 if (!limiters.ContainsKey(ip))
                 {
-                    limiters.Add(ip, new TokenBucket(10, 1));
+                    //limiters.Add(ip, new TokenBucket(10, 1));
+                    limiters.Add(ip, new FixedWindowCounter(10, 10));
                 }
             }
         }

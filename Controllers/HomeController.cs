@@ -34,5 +34,18 @@ namespace RateLimiter.Controllers
 
             return StatusCode(StatusCodes.Status429TooManyRequests, $"Too Many Requests for client : {clientIp}");
         }
+
+        [HttpGet("limit/fixedwindowcounter", Name = "FixedWindowCounterLimit")]
+        public async Task<ActionResult> FixedWindowCounterLimit()
+        {
+            var clientIp = HttpContext.Connection.RemoteIpAddress.ToString();
+
+            Console.WriteLine($"Client Ip : {clientIp}");
+
+            if (limiterService.processRequest(clientIp))
+                return Ok("Response from fixed window counter limit route !!");
+
+            return StatusCode(StatusCodes.Status429TooManyRequests, $"Too Many Requests for client : {clientIp}");
+        }
     }
 }
