@@ -8,26 +8,27 @@ namespace RateLimiter.Services
     {
         private Dictionary<String, ILimiter> limiters;
         private readonly object _lock = new object();
-        public RequestLimiterService()
+        private ILimiterFactory limiterFactory;
+        public RequestLimiterService(ILimiterFactory limiterFactory)
         {
             limiters = new Dictionary<String, ILimiter>();
+            this.limiterFactory = limiterFactory;
         }
 
-        private void checkIp(string ip)
+        private void checkIp(string ip, string route)
         {
             lock (_lock)
             {
                 if (!limiters.ContainsKey(ip))
                 {
-                    //limiters.Add(ip, new TokenBucket(10, 1));
-                    limiters.Add(ip, new FixedWindowCounter(10, 10));
+                    limiters.Add(ip, limiterFactory.GetLimiter(route));
                 }
             }
         }
 
-        public bool processRequest(string ip)
+        public bool processRequest(string ip, string route)
         {
-            checkIp(ip);
+            checkIp(ip, route);
             return limiters[ip].allowRequest();
         }
     }

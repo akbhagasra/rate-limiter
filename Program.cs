@@ -1,3 +1,5 @@
+using RateLimiter.Helpers;
+using RateLimiter.Interfaces;
 using RateLimiter.Services;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -9,6 +11,7 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddSingleton<RequestLimiterService>();
+builder.Services.AddSingleton<ILimiterFactory, LimiterFactory>();
 
 var app = builder.Build();
 
